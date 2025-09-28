@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TasteBuddy - Your AI Recipe Assistant</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -37,8 +40,13 @@
         }
 
         @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); }
-            100% { transform: translateY(-100px) rotate(360deg); }
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+            }
         }
 
         .container {
@@ -58,7 +66,7 @@
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .header .tagline {
@@ -78,11 +86,11 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border-radius: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .chat-header {
@@ -103,7 +111,7 @@
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             position: relative;
         }
 
@@ -143,12 +151,12 @@
         }
 
         .messages-area::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.05);
+            background: rgba(0, 0, 0, 0.05);
             border-radius: 3px;
         }
 
         .messages-area::-webkit-scrollbar-thumb {
-            background: rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.2);
             border-radius: 3px;
         }
 
@@ -164,6 +172,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -175,6 +184,7 @@
         }
 
         .message-bubble {
+            margin: 4px 0;
             max-width: 70%;
             padding: 15px 20px;
             border-radius: 20px;
@@ -182,7 +192,12 @@
             word-wrap: break-word;
             font-size: 0.95rem;
             line-height: 1.5;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-bubble li {
+            margin-top: 12px;
+            /* adjust as needed */
         }
 
         .message.bot .message-bubble {
@@ -302,8 +317,8 @@
             backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .quick-actions h4 {
@@ -364,12 +379,27 @@
             animation: typing 1.4s infinite;
         }
 
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
 
         @keyframes typing {
-            0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
-            30% { opacity: 1; transform: scale(1); }
+
+            0%,
+            60%,
+            100% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+
+            30% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .welcome-message {
@@ -389,8 +419,8 @@
             backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             text-align: center;
         }
 
@@ -406,7 +436,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 8px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .stat-item:last-child {
@@ -419,18 +449,34 @@
         }
 
         @media (max-width: 768px) {
-            .header h1 { font-size: 2rem; }
+            .header h1 {
+                font-size: 2rem;
+            }
+
             .chat-container {
                 grid-template-columns: 1fr;
                 height: auto;
             }
-            .sidebar { order: -1; }
-            .quick-actions { padding: 20px; }
-            .chat-main { height: 500px; }
-            .message-bubble { max-width: 85%; }
+
+            .sidebar {
+                order: -1;
+            }
+
+            .quick-actions {
+                padding: 20px;
+            }
+
+            .chat-main {
+                height: 500px;
+            }
+
+            .message-bubble {
+                max-width: 85%;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -454,7 +500,8 @@
                     <div class="welcome-message">
                         <i class="fas fa-cookie-bite"></i>
                         <h3>Welcome to TasteBuddy!</h3>
-                        <p>I'm here to help you discover amazing recipes. Try asking me about ingredients you have, cuisine preferences, or dietary needs!</p>
+                        <p>I'm here to help you discover amazing recipes. Try asking me about ingredients you have,
+                            cuisine preferences, or dietary needs!</p>
                     </div>
                 </div>
 
@@ -471,7 +518,9 @@
 
                 <div class="input-area">
                     <form id="messageForm" class="input-container">
-                        <input type="text" class="message-input" id="messageInput" name="msg" placeholder="Ask me about recipes, ingredients, or cooking tips..." autocomplete="off" required>
+                        <input type="text" class="message-input" id="messageInput" name="msg"
+                            placeholder="Ask me about recipes, ingredients, or cooking tips..." autocomplete="off"
+                            required>
                         <button type="submit" class="send-button">
                             <i class="fas fa-paper-plane"></i>
                         </button>
@@ -519,37 +568,66 @@
     </div>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             let isFirstMessage = true;
             const messagesArea = $("#messagesArea");
             const messageInput = $("#messageInput");
             const typingIndicator = $("#typingIndicator");
 
+            // function addMessage(content, isUser = false) {
+            //     if (isFirstMessage) {
+            //         messagesArea.empty();
+            //         isFirstMessage = false;
+            //     }
+
+            //     const currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            //     const messageClass = isUser ? 'user' : 'bot';
+            //     const avatar = isUser ? 
+            //         '<div class="user-avatar"><i class="fas fa-user"></i></div>' : 
+            //         '<div class="mini-avatar"><i class="fas fa-chef-hat"></i></div>';
+
+            //     const messageHtml = `
+            //         <div class="message ${messageClass}">
+            //             ${avatar}
+            //             <div class="message-bubble">
+            //                 ${content}
+            //                 <div class="message-time">${currentTime}</div>
+            //             </div>
+            //         </div>
+            //     `;
+
+            //     messagesArea.append(messageHtml);
+            //     messagesArea.scrollTop(messagesArea[0].scrollHeight);
+            // }
             function addMessage(content, isUser = false) {
                 if (isFirstMessage) {
                     messagesArea.empty();
                     isFirstMessage = false;
                 }
 
-                const currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 const messageClass = isUser ? 'user' : 'bot';
-                const avatar = isUser ? 
-                    '<div class="user-avatar"><i class="fas fa-user"></i></div>' : 
+                const avatar = isUser ?
+                    '<div class="user-avatar"><i class="fas fa-user"></i></div>' :
                     '<div class="mini-avatar"><i class="fas fa-chef-hat"></i></div>';
 
+                // ✅ If it's from bot, convert Markdown → HTML
+                const formattedContent = isUser ? content : marked.parse(content);
+
                 const messageHtml = `
-                    <div class="message ${messageClass}">
-                        ${avatar}
-                        <div class="message-bubble">
-                            ${content}
-                            <div class="message-time">${currentTime}</div>
-                        </div>
-                    </div>
-                `;
+        <div class="message ${messageClass}">
+            ${avatar}
+            <div class="message-bubble">
+                ${formattedContent}
+                <div class="message-time">${currentTime}</div>
+            </div>
+        </div>
+    `;
 
                 messagesArea.append(messageHtml);
                 messagesArea.scrollTop(messagesArea[0].scrollHeight);
             }
+
 
             function showTyping() {
                 typingIndicator.addClass('show');
@@ -561,9 +639,9 @@
             }
 
             // Handle form submission
-            $("#messageForm").on("submit", function(event) {
+            $("#messageForm").on("submit", function (event) {
                 event.preventDefault();
-                
+
                 const userMessage = messageInput.val().trim();
                 if (!userMessage) return;
 
@@ -580,25 +658,25 @@
                     type: "POST",
                     url: "/get",
                     timeout: 30000, // 30 second timeout
-                }).done(function(data) {
+                }).done(function (data) {
                     hideTyping();
                     addMessage(data);
-                }).fail(function(xhr, status, error) {
+                }).fail(function (xhr, status, error) {
                     hideTyping();
                     let errorMessage = "Sorry, I'm having trouble processing your request right now. Please try again.";
-                    
+
                     if (status === 'timeout') {
                         errorMessage = "The request is taking longer than expected. Please try a simpler question.";
                     } else if (xhr.status === 500) {
                         errorMessage = "I encountered an error while processing your request. Please try rephrasing your question.";
                     }
-                    
+
                     addMessage(errorMessage);
                 });
             });
 
             // Handle quick action buttons
-            $(".action-button").on("click", function() {
+            $(".action-button").on("click", function () {
                 const action = $(this).data("action");
                 messageInput.val(action);
                 $("#messageForm").submit();
@@ -615,7 +693,7 @@
             }, 1500);
 
             // Handle Enter key
-            messageInput.on("keypress", function(e) {
+            messageInput.on("keypress", function (e) {
                 if (e.which === 13 && !e.shiftKey) {
                     e.preventDefault();
                     $("#messageForm").submit();
@@ -624,7 +702,7 @@
 
             // Prevent double submissions
             let isSubmitting = false;
-            $("#messageForm").on("submit", function(e) {
+            $("#messageForm").on("submit", function (e) {
                 if (isSubmitting) {
                     e.preventDefault();
                     return false;
@@ -635,4 +713,5 @@
         });
     </script>
 </body>
+
 </html>
