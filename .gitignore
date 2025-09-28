@@ -1,0 +1,4 @@
+.env
+.venv/
+RECIPE_RECOMMENDER.egg-info/
+data/
